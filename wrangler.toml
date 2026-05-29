@@ -1,0 +1,15 @@
+name = "juntassisepuede-com"
+main = "worker.js"
+compatibility_date = "2026-05-28"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "."
+not_found_handling = "404-page"
+
+[[kv_namespaces]]
+binding = "CLICKS"
+id = "713fb26e1a54445d9dd4deddd278d647"
+
+[[send_email]]
+name = "EMAIL"

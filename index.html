@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juntas Sí Se Puede — Prensa española</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #1a73e8;
+      --blue-dark:  #1557b0;
+      --surface:    #ffffff;
+      --bg:         #f8f9fa;
+      --border:     #e8eaed;
+      --text:       #202124;
+      --text-2:     #5f6368;
+      --text-3:     #80868b;
+      --shadow-sm:  0 1px 3px rgba(60,64,67,.12), 0 1px 2px rgba(60,64,67,.08);
+      --shadow-md:  0 4px 12px rgba(60,64,67,.15), 0 2px 6px rgba(60,64,67,.10);
+      --shadow-lg:  0 8px 24px rgba(60,64,67,.18), 0 4px 10px rgba(60,64,67,.12);
+      --radius:     12px;
+      --header-h:   64px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Roboto', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--header-h);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .header-logo svg { width: 32px; height: 32px; }
+    .header-logo span {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -.2px;
+    }
+    .header-logo span b { color: var(--blue); font-weight: 700; }
+
+    .header-date {
+      margin-left: auto;
+      font-size: 13px;
+      color: var(--text-2);
+      font-weight: 500;
+      background: var(--bg);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn-icon {
+      width: 40px; height: 40px;
+      border: none;
+      background: transparent;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-2);
+      transition: background .15s;
+    }
+    .btn-icon:hover { background: var(--bg); color: var(--text); }
+    .btn-icon svg { width: 20px; height: 20px; }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .15s, box-shadow .15s;
+    }
+    .btn-primary:hover { background: var(--blue-dark); box-shadow: var(--shadow-sm); }
+
+    /* ── Layout ── */
+    .main { max-width: 1400px; margin: 0 auto; padding: 32px 24px 64px; }
+
+    /* ── Section ── */
+    .section { margin-bottom: 40px; }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    .section-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .section-count {
+      font-size: 12px;
+      color: var(--text-3);
+    }
+    .section-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      flex-shrink: 0;
+      margin-bottom: 1px;
+    }
+
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    /* ── Card ── */
+    .card {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      transition: box-shadow .2s, transform .2s;
+      aspect-ratio: 3/4;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .3s;
+      background: var(--bg);
+    }
+    .card:hover .card-img { transform: scale(1.02); }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.18) 50%, transparent 75%);
+      opacity: 0;
+      transition: opacity .2s;
+      display: flex;
+      align-items: flex-end;
+      padding: 14px;
+    }
+    .card:hover .card-overlay { opacity: 1; }
+
+    .card-name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.3;
+      text-shadow: 0 1px 3px rgba(0,0,0,.5);
+    }
+
+    /* Badge nombre siempre visible en móvil */
+    .card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.65), transparent);
+      padding: 20px 10px 8px;
+      pointer-events: none;
+    }
+    .card-label-text {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,.6);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── Portada sin imagen ── */
+    .card-empty {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 100%);
+      color: var(--text-3);
+      padding: 16px;
+    }
+    .card-empty svg { width: 32px; height: 32px; opacity: .4; }
+    .card-empty-name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+      color: var(--text-2);
+    }
+
+    /* ── Sección digital (logos) ── */
+    .grid-digital {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .card-digital {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 12px 14px;
+      gap: 10px;
+      transition: box-shadow .2s, transform .2s;
+      min-height: 110px;
+    }
+    .card-digital:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .card-digital img {
+      width: 52px; height: 52px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .card-digital-name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-2);
+      text-align: center;
+    }
+    .badge-digital {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--blue);
+      background: #e8f0fe;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ── Stats ── */
+    #stats-panel {
+      display: none;
+      margin-top: 40px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .stats-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stats-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .stats-total {
+      font-size: 13px;
+      color: var(--text-2);
+    }
+    #stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    #stats-table th {
+      padding: 10px 24px;
+      text-align: left;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    #stats-table td {
+      padding: 10px 24px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    #stats-table tr:last-child td { border-bottom: none; }
+    #stats-table tr:hover td { background: #f8f9fa; }
+    .stat-bar-wrap { width: 120px; }
+    .stat-bar-bg { height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
+    .stat-bar { height: 100%; border-radius: 3px; background: var(--blue); transition: width .4s; }
+    .stat-num { font-weight: 500; color: var(--blue); }
+    .stat-last { color: var(--text-3); font-size: 12px; }
+
+    /* ── Modal contacto ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      animation: modal-in .2s ease;
+    }
+    @keyframes modal-in {
+      from { opacity: 0; transform: scale(.95) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px 0;
+    }
+    .modal-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .modal-body { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 14px; }
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-2);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+    .field input, .field textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--surface);
+      transition: border-color .15s;
+      resize: none;
+    }
+    .field input:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .btn-ghost {
+      padding: 8px 18px;
+      background: transparent;
+      border: none;
+      border-radius: 20px;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-ghost:hover { background: var(--bg); }
+    #contact-status { font-size: 13px; color: var(--text-2); min-height: 18px; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #323232;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: transform .25s ease;
+      z-index: 300;
+      white-space: nowrap;
+      box-shadow: var(--shadow-md);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── Attribution ── */
+    .attribution {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 12px;
+      color: var(--text-3);
+    }
+    .attribution a { color: var(--text-3); }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .main { padding: 16px 12px 48px; }
+      .header { padding: 0 12px; }
+      .header-logo span { display: none; }
+      .header-date { font-size: 12px; padding: 5px 10px; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+      .grid-digital { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+      #stats-table th, #stats-table td { padding: 8px 12px; }
+      .stat-bar-wrap { width: 70px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────────────────────── -->
+<header class="header">
+  <a href="/" class="header-logo" aria-label="Inicio">
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="32" height="32" rx="7" fill="#1a73e8"/>
+      <text x="16" y="23" font-family="sans-serif" font-size="20" font-weight="900" fill="white" text-anchor="middle">J</text>
+    </svg>
+    <span>Juntas <b>Sí</b> Se Puede</span>
+  </a>
+
+  <div class="header-date" id="header-date"></div>
+
+  <div class="header-actions">
+    <button class="btn-icon" id="btn-stats" title="Estadísticas" aria-label="Estadísticas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+        <line x1="6" y1="20" x2="6" y2="14"/>
+      </svg>
+    </button>
+    <button class="btn-primary" id="btn-contact">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      Contacto
+    </button>
+  </div>
+</header>
+
+<!-- ── Main ───────────────────────────────────────────────────────────────── -->
+<main class="main" id="app"></main>
+
+<!-- ── Stats ─────────────────────────────────────────────────────────────── -->
+<div class="main" style="padding-top:0">
+  <div id="stats-panel">
+    <div class="stats-header">
+      <span class="stats-title">Estadísticas de acceso</span>
+      <span class="stats-total" id="stats-total"></span>
+    </div>
+    <table id="stats-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Periódico</th>
+          <th>Popularidad</th>
+          <th>Clics</th>
+          <th>Último acceso</th>
+        </tr>
+      </thead>
+      <tbody id="stats-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="main" style="padding-top:0">
+  <p class="attribution">Portadas cortesía de <a href="https://kiosko.net" target="_blank" rel="noopener">kiosko.net</a></p>
+</div>
+
+<!-- ── Modal contacto ─────────────────────────────────────────────────────── -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-head">
+      <h2 class="modal-title" id="modal-title">Enviar mensaje</h2>
+      <button class="btn-icon" id="btn-close-modal" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label for="contact-name">Tu nombre</label>
+        <input type="text" id="contact-name" placeholder="Nombre o alias" maxlength="100" />
+      </div>
+      <div class="field">
+        <label for="contact-msg">Mensaje</label>
+        <textarea id="contact-msg" rows="5" placeholder="Escribe tu mensaje aquí..." maxlength="2000"></textarea>
+      </div>
+      <div id="contact-status"></div>
+      <div class="modal-footer">
+        <button class="btn-ghost" id="btn-cancel-modal">Cancelar</button>
+        <button class="btn-primary" id="btn-send">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          Enviar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ──────────────────────────────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Datos ──────────────────────────────────────────────────────────────────
+
+const NACIONALES = [
+  { name: 'El País',        id: 'elpais',        url: 'https://elpais.com' },
+  { name: 'El Mundo',       id: 'elmundo',       url: 'https://elmundo.es' },
+  { name: 'ABC',            id: 'abc',           url: 'https://abc.es' },
+  { name: 'La Vanguardia',  id: 'lavanguardia',  url: 'https://lavanguardia.com' },
+  { name: 'El Periódico',   id: 'elperiodico',   url: 'https://elperiodico.com' },
+  { name: 'La Razón',       id: 'larazon',       url: 'https://larazon.es' },
+  { name: '20 Minutos',     id: '20minutos',     url: 'https://20minutos.es' },
+];
+
+const ECONOMIA = [
+  { name: 'Expansión',      id: 'expansion',     url: 'https://expansion.com' },
+  { name: 'El Economista',  id: 'eleconomista',  url: 'https://eleconomista.es' },
+  { name: 'Cinco Días',     id: 'cincodias',     url: 'https://cincodias.elpais.com' },
+];
+
+const DEPORTES = [
+  { name: 'Mundo Deportivo', id: 'mundodeportivo', url: 'https://mundodeportivo.com' },
+  { name: 'Sport',            id: 'sport',          url: 'https://sport.es' },
+  { name: 'Marca',            id: 'marca',          url: 'https://marca.com' },
+  { name: 'AS',               id: 'as',             url: 'https://as.com' },
+];
+
+const REGIONALES = {
+  'Andalucía': [
+    { name: 'Diario de Sevilla', id: 'diariodesevilla', url: 'https://diariodesevilla.es' },
+    { name: 'El Correo de Andalucía', id: 'elcorreoanda', url: 'https://elcorreoandalucia.es' },
+    { name: 'Sur',               id: 'sur',           url: 'https://diariosur.es' },
+    { name: 'Ideal',             id: 'ideal',         url: 'https://ideal.es' },
+    { name: 'Málaga Hoy',        id: 'malagahoy',     url: 'https://malagahoy.es' },
+    { name: 'Huelva Información', id: 'huelvainformacion', url: 'https://huelvainformacion.es' },
+  ],
+  'Aragón': [
+    { name: 'Heraldo de Aragón', id: 'heraldoaragon', url: 'https://heraldo.es' },
+    { name: 'El Periódico de Aragón', id: 'elperiodicoaragon', url: 'https://elperiodicodearagon.com' },
+  ],
+  'Asturias': [
+    { name: 'La Nueva España', id: 'lanuevaespana', url: 'https://lne.es' },
+    { name: 'El Comercio',     id: 'elcomercio',   url: 'https://elcomercio.es' },
+  ],
+  'Baleares': [
+    { name: 'Diario de Mallorca', id: 'diariodemallorca', url: 'https://diariodemallorca.es' },
+    { name: 'Última Hora',        id: 'ultimahora',       url: 'https://ultimahora.es' },
+  ],
+  'Canarias': [
+    { name: 'Canarias7',   id: 'canarias7', url: 'https://canarias7.es' },
+    { name: 'El Día',      id: 'eldia',     url: 'https://eldia.es' },
+    { name: 'La Provincia', id: 'laprovincia', url: 'https://laprovincia.es' },
+  ],
+  'Cantabria': [
+    { name: 'El Diario Montañés', id: 'eldiariomontanes', url: 'https://eldiariomontanes.es' },
+  ],
+  'Castilla y León': [
+    { name: 'El Norte de Castilla', id: 'elnortecastilla', url: 'https://elnortedecastilla.es' },
+    { name: 'Diario de Burgos',     id: 'diariodeburgos',  url: 'https://diariodeburgos.es' },
+    { name: 'El Adelantado de Segovia', id: 'adelantadosegovia', url: 'https://eladelantado.com' },
+  ],
+  'Castilla-La Mancha': [
+    { name: 'Lanza',       id: 'lanza',     url: 'https://lanzadigital.com' },
+    { name: 'La Tribuna de Ciudad Real', id: 'latribunacr', url: 'https://latribunadeciudadreal.es' },
+  ],
+  'Cataluña': [
+    { name: 'Ara',          id: 'ara',         url: 'https://ara.cat' },
+    { name: 'El Punt Avui', id: 'elpuntavui',  url: 'https://elpuntavui.cat' },
+  ],
+  'Extremadura': [
+    { name: 'HOY',               id: 'hoy',     url: 'https://hoy.es' },
+    { name: 'El Periódico Extremadura', id: 'perex', url: 'https://elperiodicoextremadura.com' },
+  ],
+  'Galicia': [
+    { name: 'La Voz de Galicia',  id: 'lavozgalicia',    url: 'https://lavozdegalicia.es' },
+    { name: 'Faro de Vigo',       id: 'farovigo',        url: 'https://farodevigo.es' },
+    { name: 'El Correo Gallego',  id: 'elcorreogallego', url: 'https://elcorreogallego.es' },
+    { name: 'La Región',          id: 'laregion',        url: 'https://laregion.es' },
+  ],
+  'La Rioja': [
+    { name: 'La Rioja', id: 'larioja', url: 'https://larioja.com' },
+  ],
+  'Madrid': [
+    { name: 'El Independiente', id: 'elindependiente', url: 'https://elindependiente.es' },
+  ],
+  'Murcia': [
+    { name: 'La Verdad',          id: 'laverdad',        url: 'https://laverdad.es' },
+    { name: 'La Opinión de Murcia', id: 'laopinionmurcia', url: 'https://laopiniondemurcia.es' },
+  ],
+  'Navarra': [
+    { name: 'Diario de Navarra', id: 'diariodenavarra', url: 'https://diariodenavarra.es' },
+    { name: 'Noticias de Navarra', id: 'noticiasnavarra', url: 'https://noticiasdenavarra.com' },
+  ],
+  'País Vasco': [
+    { name: 'El Correo',   id: 'elcorreo', url: 'https://elcorreo.com' },
+    { name: 'Deia',        id: 'deia',     url: 'https://deia.eus' },
+    { name: 'Gara',        id: 'gara',     url: 'https://gara.net' },
+    { name: 'Noticias de Gipuzkoa', id: 'noticiasgipuzkoa', url: 'https://noticiasdegipuzkoa.eus' },
+  ],
+  'Valencia': [
+    { name: 'Levante',       id: 'levante',       url: 'https://levante-emv.com' },
+    { name: 'Las Provincias', id: 'lasprovincias', url: 'https://lasprovincias.es' },
+    { name: 'Información',   id: 'informacion',   url: 'https://informacion.es' },
+  ],
+};
+
+const DIGITALES = [
+  { name: 'El Confidencial', url: 'https://elconfidencial.com',   logo: '/logos/el-confidencial.png' },
+  { name: 'El Español',      url: 'https://elespanol.com',        logo: '/logos/el-espanol.png' },
+  { name: 'El Plural',       url: 'https://elplural.com',         logo: '/logos/el-plural.png' },
+  { name: 'Libertad Digital', url: 'https://libertaddigital.com', logo: '/logos/libertad-digital.png' },
+  { name: 'Infolibre',       url: 'https://infolibre.es',         logo: '/logos/infolibre.png' },
+  { name: 'Público',         url: 'https://publico.es',           logo: '/logos/publico.png' },
+  { name: 'Diario Red',      url: 'https://diariored.es',         logo: '/logos/diario-red.png' },
+  { name: 'The Objective',   url: 'https://theobjective.com',     logo: '/logos/the-objective.png' },
+  { name: 'Cinco Días',      url: 'https://cincodias.elpais.com', logo: '/logos/cinco-dias.png' },
+];
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+
+function todayPath() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}/${m}/${day}`;
+}
+
+function proxyUrl(id) {
+  return `/proxy?paper=${id}&date=${todayPath()}`;
+}
+
+const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+function track(name) {
+  if (IS_LOCAL) return;
+  fetch(`/track?paper=${encodeURIComponent(name)}`, { method: 'POST' }).catch(() => {});
+}
+
+function formatRelative(iso) {
+  if (!iso) return '—';
+  const diff = (Date.now() - new Date(iso)) / 1000;
+  if (diff < 60)   return 'Ahora mismo';
+  if (diff < 3600) return `Hace ${Math.floor(diff/60)} min`;
+  if (diff < 86400) return `Hace ${Math.floor(diff/3600)} h`;
+  return `Hace ${Math.floor(diff/86400)} d`;
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+
+function renderCard(paper) {
+  const a = document.createElement('a');
+  a.className = 'card';
+  a.href = paper.url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.title = paper.name;
+  a.addEventListener('click', () => track(paper.name));
+
+  const img = document.createElement('img');
+  img.className = 'card-img';
+  img.alt = paper.name;
+  img.loading = 'lazy';
+  img.decoding = 'async';
+
+  // Fallback: mostrar estado vacío si no carga
+  img.onerror = () => {
+    a.innerHTML = '';
+    const empty = document.createElement('div');
+    empty.className = 'card-empty';
+    empty.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+      </svg>
+      <span class="card-empty-name">${paper.name}</span>`;
+    a.appendChild(empty);
+  };
+
+  img.src = proxyUrl(paper.id);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'card-overlay';
+  overlay.innerHTML = `<span class="card-name">${paper.name}</span>`;
+
+  const label = document.createElement('div');
+  label.className = 'card-label';
+  label.innerHTML = `<div class="card-label-text">${paper.name}</div>`;
+
+  a.appendChild(img);
+  a.appendChild(overlay);
+  a.appendChild(label);
+  return a;
+}
+
+function renderDigitalCard(paper) {
+  const a = document.createElement('a');
+  a.className = 'card-digital';
+  a.href = paper.url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.addEventListener('click', () => track(paper.name));
+
+  a.innerHTML = `
+    <img src="${paper.logo}" alt="${paper.name}" loading="lazy" />
+    <span class="card-digital-name">${paper.name}</span>
+    <span class="badge-digital">Digital</span>`;
+  return a;
+}
+
+function renderSection(title, papers, digital = false) {
+  const sec = document.createElement('div');
+  sec.className = 'section';
+
+  sec.innerHTML = `
+    <div class="section-header">
+      <div class="section-dot"></div>
+      <h2 class="section-title">${title}</h2>
+      <span class="section-count">${papers.length} publicaciones</span>
+    </div>`;
+
+  const grid = document.createElement('div');
+  grid.className = digital ? 'grid-digital' : 'grid';
+
+  papers.forEach(p => grid.appendChild(digital ? renderDigitalCard(p) : renderCard(p)));
+  sec.appendChild(grid);
+  return sec;
+}
+
+function renderRegionSection(region, papers) {
+  return renderSection(region, papers, false);
+}
+
+function buildApp() {
+  const app = document.getElementById('app');
+
+  // Nacionales
+  app.appendChild(renderSection('Prensa nacional', NACIONALES));
+  app.appendChild(renderSection('Economía', ECONOMIA));
+  app.appendChild(renderSection('Deportes', DEPORTES));
+
+  // Regionales por comunidad
+  const regDiv = document.createElement('div');
+  regDiv.className = 'section';
+  regDiv.innerHTML = `
+    <div class="section-header" style="border-bottom-color: #34a853;">
+      <div class="section-dot" style="background:#34a853;"></div>
+      <h2 class="section-title">Prensa regional</h2>
+      <span class="section-count">${Object.values(REGIONALES).flat().length} publicaciones</span>
+    </div>`;
+
+  Object.entries(REGIONALES).forEach(([region, papers]) => {
+    const subSec = document.createElement('div');
+    subSec.style.marginBottom = '28px';
+
+    const subHeader = document.createElement('div');
+    subHeader.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:10px;margin-top:20px;';
+    subHeader.innerHTML = `
+      <span style="font-family:Google Sans,sans-serif;font-size:13px;font-weight:500;color:#5f6368;">${region}</span>
+      <span style="flex:1;height:1px;background:#e8eaed;"></span>`;
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    papers.forEach(p => grid.appendChild(renderCard(p)));
+
+    subSec.appendChild(subHeader);
+    subSec.appendChild(grid);
+    regDiv.appendChild(subSec);
+  });
+
+  app.appendChild(regDiv);
+
+  // Digitales
+  app.appendChild(renderSection('Solo digitales', DIGITALES, true));
+}
+
+// ── Fecha header ──────────────────────────────────────────────────────────
+
+function setHeaderDate() {
+  const now = new Date();
+  const opts = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  document.getElementById('header-date').textContent =
+    now.toLocaleDateString('es-ES', opts);
+}
+
+// ── Stats ─────────────────────────────────────────────────────────────────
+
+let statsLoaded = false;
+let statsVisible = false;
+
+async function loadStats() {
+  if (statsLoaded) return;
+  try {
+    const data = await fetch('/stats').then(r => r.json());
+    statsLoaded = true;
+
+    document.getElementById('stats-total').textContent =
+      `${data.total.toLocaleString('es-ES')} clics totales`;
+
+    const max = data.papers[0]?.count || 1;
+    const tbody = document.getElementById('stats-body');
+    tbody.innerHTML = '';
+
+    data.papers.forEach((p, i) => {
+      const pct = Math.round((p.count / max) * 100);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="color:var(--text-3);width:32px">${i + 1}</td>
+        <td>${p.paper}</td>
+        <td class="stat-bar-wrap">
+          <div class="stat-bar-bg"><div class="stat-bar" style="width:${pct}%"></div></div>
+        </td>
+        <td class="stat-num">${p.count.toLocaleString('es-ES')}</td>
+        <td class="stat-last">${formatRelative(p.last)}</td>`;
+      tbody.appendChild(tr);
+    });
+  } catch {}
+}
+
+document.getElementById('btn-stats').addEventListener('click', async () => {
+  const panel = document.getElementById('stats-panel');
+  statsVisible = !statsVisible;
+  panel.style.display = statsVisible ? 'block' : 'none';
+  if (statsVisible) {
+    await loadStats();
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
+
+// ── Modal contacto ────────────────────────────────────────────────────────
+
+const backdrop = document.getElementById('modal-backdrop');
+
+function openModal() {
+  backdrop.classList.add('open');
+  document.getElementById('contact-name').focus();
+}
+function closeModal() {
+  backdrop.classList.remove('open');
+  document.getElementById('contact-status').textContent = '';
+}
+
+document.getElementById('btn-contact').addEventListener('click', openModal);
+document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+document.getElementById('btn-cancel-modal').addEventListener('click', closeModal);
+backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.getElementById('btn-send').addEventListener('click', async () => {
+  const name    = document.getElementById('contact-name').value.trim();
+  const message = document.getElementById('contact-msg').value.trim();
+  const status  = document.getElementById('contact-status');
+  const btn     = document.getElementById('btn-send');
+
+  if (!name || !message) {
+    status.textContent = 'Por favor, rellena nombre y mensaje.';
+    status.style.color = '#d93025';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+  status.textContent = '';
+
+  try {
+    const res = await fetch('/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, message }),
+    });
+    const json = await res.json();
+
+    if (json.ok) {
+      closeModal();
+      showToast('Mensaje enviado. ¡Gracias!');
+      document.getElementById('contact-name').value = '';
+      document.getElementById('contact-msg').value = '';
+    } else {
+      status.textContent = json.error || 'Error al enviar el mensaje.';
+      status.style.color = '#d93025';
+    }
+  } catch {
+    status.textContent = 'Error de conexión. Inténtalo de nuevo.';
+    status.style.color = '#d93025';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Enviar`;
+  }
+});
+
+// ── Toast ─────────────────────────────────────────────────────────────────
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+
+setHeaderDate();
+buildApp();
+</script>
+</body>
+</html>
