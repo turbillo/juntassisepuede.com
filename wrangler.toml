@@ -13,11 +13,3 @@ id = "713fb26e1a54445d9dd4deddd278d647"
 
 [[send_email]]
 name = "EMAIL"
-
-[[routes]]
-pattern = "juntassisepuede.com/*"
-zone_name = "juntassisepuede.com"
-
-[[routes]]
-pattern = "www.juntassisepuede.com/*"
-zone_name = "juntassisepuede.com"
