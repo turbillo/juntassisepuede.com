@@ -292,7 +292,7 @@
 
     /* ── Stats ── */
     #stats-panel {
-      display: none;
+      display: block;
       margin-top: 40px;
       background: var(--surface);
       border-radius: var(--radius);
@@ -857,7 +857,6 @@ function setHeaderDate() {
 // ── Stats ─────────────────────────────────────────────────────────────────
 
 let statsLoaded = false;
-let statsVisible = false;
 
 async function loadStats() {
   if (statsLoaded) return;
@@ -871,6 +870,11 @@ async function loadStats() {
     const max = data.papers[0]?.count || 1;
     const tbody = document.getElementById('stats-body');
     tbody.innerHTML = '';
+
+    if (data.papers.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-3);padding:24px">Aún no hay datos de clics.</td></tr>';
+      return;
+    }
 
     data.papers.forEach((p, i) => {
       const pct = Math.round((p.count / max) * 100);
@@ -888,14 +892,8 @@ async function loadStats() {
   } catch {}
 }
 
-document.getElementById('btn-stats').addEventListener('click', async () => {
-  const panel = document.getElementById('stats-panel');
-  statsVisible = !statsVisible;
-  panel.style.display = statsVisible ? 'block' : 'none';
-  if (statsVisible) {
-    await loadStats();
-    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+document.getElementById('btn-stats').addEventListener('click', () => {
+  document.getElementById('stats-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
 // ── Modal contacto ────────────────────────────────────────────────────────
@@ -972,6 +970,7 @@ function showToast(msg) {
 
 setHeaderDate();
 buildApp();
+loadStats();
 </script>
 </body>
 </html>
